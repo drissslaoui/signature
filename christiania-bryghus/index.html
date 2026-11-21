@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christiania Bryghus — Beer brewed with hemp in Christiania, Copenhagen</title>
+  <meta name="description" content="Christiania Bryghus brews every beer with hemp, right in the heart of Christiania, Copenhagen. Discover the lineup, visit our taproom The Lab, or book a Christiania BeerWalk.">
+  <meta name="theme-color" content="#130D0B">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <meta property="og:title" content="Christiania Bryghus — Brewed in the Freetown">
+  <meta property="og:description" content="Every beer we brew has hemp in it. Taproom, BeerWalks and shareholder club on Christiania, Copenhagen.">
+  <meta property="og:image" content="assets/img/taps-pour.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Big+Shoulders+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/taps-pour.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+
+<!-- ============ AGE GATE ============ -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" hidden>
+  <div class="gate__ghost" aria-hidden="true">Skål</div>
+  <div class="gate__inner">
+    <img src="assets/logo.png" alt="Christiania Bryghus" class="gate__logo" width="200" height="200">
+    <p class="eyebrow">Velkommen · Welcome</p>
+    <h2 id="gate-title" class="gate__title">Are you 18 or older?</h2>
+    <p class="gate__text">You must be of legal drinking age to enter this site. Enjoy our beer responsibly.</p>
+    <div class="gate__actions">
+      <button type="button" class="btn btn--primary" data-gate="yes">Yes, I'm 18+</button>
+      <button type="button" class="btn btn--ghost" data-gate="no">No, I'm not</button>
+    </div>
+    <p class="gate__denied" role="status" hidden>Sorry, come back when you're 18. We'll keep one cold for you.</p>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header" id="site-header">
+  <a class="topbar" href="#experiences">
+    <span>Book a guided <strong>Christiania BeerWalk</strong> and see Christiania with one of our beers in hand</span>
+    <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+  </a>
+  <div class="nav-wrap">
+    <a href="#main" class="brand" aria-label="Christiania Bryghus home">
+      <img src="assets/logo.png" alt="Christiania Bryghus" width="76" height="76">
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#beers">Our beers</a>
+      <a href="#hemp">Why hemp</a>
+      <a href="#the-lab">The Lab</a>
+      <a href="#experiences">Experiences</a>
+      <a href="#folkeaktier">Folkeaktier</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-shop" href="#experiences">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span>Shop</span>
+      </a>
+      <a class="btn btn--primary btn--sm" href="#experiences">Book a BeerWalk</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="menu-toggle__bar"></span><span class="menu-toggle__bar"></span>
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <nav aria-label="Mobile">
+    <a href="#beers">Our beers</a>
+    <a href="#hemp">Why hemp</a>
+    <a href="#the-lab">The Lab</a>
+    <a href="#experiences">Experiences</a>
+    <a href="#folkeaktier">Folkeaktier</a>
+    <a href="#experiences">Shop</a>
+  </nav>
+  <div class="mobile-menu__foot">
+    <p>The Lab · Mælkevejen 81A, Christiania</p>
+    <a class="btn btn--primary" href="#experiences">Book a BeerWalk</a>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__media">
+      <img src="assets/img/taps-pour.jpg" alt="" width="1600" height="1067" fetchpriority="high">
+    </div>
+    <div class="hero__grain" aria-hidden="true"></div>
+
+    <div class="container hero__inner">
+      <p class="eyebrow eyebrow--yellow hero__eyebrow">Bryghus på Christiania · København</p>
+      <h1 class="hero__title" id="hero-title">
+        <span class="line"><span>Brewed in</span></span>
+        <span class="line"><span>the Freetown</span></span>
+      </h1>
+      <div class="hero__bottom">
+        <p class="hero__lead">Every beer from Christiania Bryghus is brewed with hemp. Some carry a hint, some a clear herbal kick. All of them are born in the middle of Copenhagen's most free-spirited neighbourhood.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--primary" href="#beers">Discover our beers
+            <svg class="i-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--on-dark" href="#the-lab">Visit The Lab</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__stamp" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <defs><path id="stamp-circle" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+        <circle cx="100" cy="100" r="98" class="stamp-bg"/>
+        <g class="stamp-ring">
+          <text><textPath href="#stamp-circle" textLength="458" lengthAdjust="spacing">Brygget på Christiania ✦ København ✦ Øl med hamp ✦</textPath></text>
+        </g>
+        <text x="100" y="114" text-anchor="middle" class="stamp-center">Skål</text>
+      </svg>
+    </div>
+
+    <div class="container hero__foot">
+      <a href="#the-lab" class="hero__status">
+        <span class="status-dot" data-status-dot></span>
+        <span><strong>The Lab</strong> · <span data-open-status>Open daily from 12:00</span></span>
+      </a>
+      <a href="#beers" class="hero__scroll">Scroll
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Pilsner</span><i></i><span>Blonde Ale</span><i></i><span>American IPA</span><i></i><span>Brut IPA</span><i></i><span>NEIPA</span><i></i><span>Gose</span><i></i><span>Black IPA</span><i></i>
+      <span>Pilsner</span><i></i><span>Blonde Ale</span><i></i><span>American IPA</span><i></i><span>Brut IPA</span><i></i><span>NEIPA</span><i></i><span>Gose</span><i></i><span>Black IPA</span><i></i>
+    </div>
+  </div>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro" aria-labelledby="intro-title">
+    <div class="container">
+      <p class="eyebrow" id="intro-title" data-reveal>Øl med hamp · Beer with hemp</p>
+      <p class="intro__statement" data-reveal>Hops and hemp are botanical cousins. We put them back in the same kettle, and built a whole lineup around it.</p>
+      <ul class="stats">
+        <li data-reveal><strong data-count="100" data-suffix="%">100%</strong><span>of our beers are brewed with hemp</span></li>
+        <li data-reveal><strong data-count="7">7</strong><span>beers on the current list</span></li>
+        <li data-reveal><strong data-count="4">4</strong><span>international brewery collaborations</span></li>
+        <li data-reveal><strong>1 kr</strong><span>per Pilsner bottle goes to Fonden Fristaden Christiania</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ BEER EXPLORER ============ -->
+  <section class="beers" id="beers" aria-labelledby="beers-title">
+    <div class="container">
+      <div class="beers__head">
+        <div>
+          <p class="eyebrow">The lineup</p>
+          <h2 class="h2" id="beers-title">Seven beers.<br>All with hemp.</h2>
+        </div>
+        <div class="beers__nav">
+          <p class="beers__count"><span data-beer-index>01</span> / <span data-beer-total>07</span></p>
+          <button type="button" class="round-btn" data-beer-prev aria-label="Previous beer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5m6-6-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="round-btn" data-beer-next aria-label="Next beer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="beers__stage" id="beer-panel" role="tabpanel" aria-live="polite">
+        <div class="beers__visual">
+          <span class="beers__ghost" data-beer-ghost aria-hidden="true">Pilsner</span>
+          <span class="beers__glow" aria-hidden="true"></span>
+          <div class="beers__bottle" data-beer-bottle></div>
+        </div>
+        <div class="beers__info" data-beer-info>
+          <noscript>
+            <h3 class="beers__name">Christiania Pilsner</h3>
+            <p class="beers__desc">Our first beer in a bottle. Pilsner · 4.6% · 30 IBU. Also on the list: Bobcat Sam, Bombay, Dry Pedersen, Orange Haze, Blueberry Kush and Axel Julemand.</p>
+          </noscript>
+        </div>
+      </div>
+
+      <div class="beers__tabs" role="tablist" aria-label="Choose a beer" data-beer-tabs></div>
+    </div>
+  </section>
+
+  <!-- ============ WHY HEMP ============ -->
+  <section class="hemp" id="hemp" aria-labelledby="hemp-title">
+    <div class="container hemp__grid">
+      <figure class="hemp__media" data-reveal>
+        <img src="assets/img/hops-glasses.jpg" alt="Three glasses of beer surrounded by fresh hop cones" width="1400" height="1000" loading="lazy">
+        <figcaption>Humulus &amp; Cannabis · same family, different personalities</figcaption>
+      </figure>
+      <div class="hemp__content">
+        <p class="eyebrow eyebrow--yellow" data-reveal>Why hemp?</p>
+        <h2 class="h2" id="hemp-title" data-reveal>Not a gimmick.<br>A flavour.</h2>
+        <ol class="hemp__points">
+          <li data-reveal>
+            <span class="hemp__num">01</span>
+            <div>
+              <h3>Same family tree</h3>
+              <p>Hops and hemp both belong to the Cannabaceae family. Brewed together they add earthy, herbal and resinous layers you won't find in an ordinary lager.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="hemp__num">02</span>
+            <div>
+              <h3>A hint, or a clear taste</h3>
+              <p>Some of our beers carry just a whisper of hemp. Others wear it loud and proud. Every label tells you which is which.</p>
+            </div>
+          </li>
+          <li data-reveal>
+            <span class="hemp__num">03</span>
+            <div>
+              <h3>All flavour, no high</h3>
+              <p>We brew with food-grade hemp. It's about aroma and character, nothing else. The only buzz comes from the beer itself.</p>
+            </div>
+          </li>
+        </ol>
+        <a class="link-arrow" href="#beers" data-reveal>Read more about our hemp beers
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BREWING PROCESS ============ -->
+  <section class="process" id="brewing" aria-labelledby="process-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal>Brewed on Christiania</p>
+          <h2 class="h2" id="process-title" data-reveal>From kettle<br>to glass.</h2>
+        </div>
+        <p class="section-head__text" data-reveal>Small batches, brewed a few hundred metres from where you drink them. No shortcuts, no filters on the ideas.</p>
+      </div>
+      <ol class="process__steps">
+        <li data-reveal>
+          <span class="process__num">01</span>
+          <h3>Mash</h3>
+          <p>Malted barley, warm water and patience. This is where body and colour are born.</p>
+        </li>
+        <li data-reveal>
+          <span class="process__num">02</span>
+          <h3>Boil</h3>
+          <p>Hops and hemp go in. Bitterness, aroma and that signature herbal edge come out.</p>
+        </li>
+        <li data-reveal>
+          <span class="process__num">03</span>
+          <h3>Ferment</h3>
+          <p>Yeast gets to work. Sometimes classic lager strains, sometimes wild Norwegian kveik.</p>
+        </li>
+        <li data-reveal>
+          <span class="process__num">04</span>
+          <h3>Pour</h3>
+          <p>Straight from our tanks to the taps at The Lab, and into bottles for the rest of Denmark.</p>
+        </li>
+      </ol>
+    </div>
+    <figure class="process__media">
+      <img src="assets/img/brewhouse.jpg" alt="Stainless steel fermentation tanks in a brewhouse" width="1600" height="1200" loading="lazy" data-parallax>
+      <figcaption class="container">
+        <span class="process__badge">LAB:X</span>
+        <span>Our experimental series. One-off brews that only exist on tap, until they're gone.</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ============ THE LAB ============ -->
+  <section class="lab" id="the-lab" aria-labelledby="lab-title">
+    <div class="lab__bg">
+      <img src="assets/img/lab-courtyard.jpg" alt="" width="2000" height="1333" loading="lazy">
+    </div>
+    <div class="container lab__inner">
+      <div class="lab__intro">
+        <p class="eyebrow eyebrow--yellow" data-reveal>Our taproom</p>
+        <h2 class="lab__title" id="lab-title" data-reveal>The Lab</h2>
+        <p class="lab__lead" data-reveal>Rotating taps, experimental LAB:X brews and the friendliest bar stools on Christiania. Drop in for one, stay for the stories.</p>
+      </div>
+
+      <aside class="lab__panel" aria-label="Visit The Lab" data-reveal>
+        <div class="lab__status">
+          <span class="status-dot" data-status-dot></span>
+          <span data-open-status>Open daily from 12:00</span>
+        </div>
+
+        <div class="lab__block">
+          <h3 class="lab__label">Find us</h3>
+          <address>
+            Christiania Bryghus · The Lab<br>
+            Mælkevejen 81A, Christiania<br>
+            1440 København K
+          </address>
+        </div>
+
+        <div class="lab__block">
+          <h3 class="lab__label">Opening hours</h3>
+          <table class="hours">
+            <tbody>
+              <tr data-days="1,2,3"><th scope="row">Monday – Wednesday</th><td>12:00 – 21:00</td></tr>
+              <tr data-days="4,5,6"><th scope="row">Thursday – Saturday</th><td>12:00 – 22:00</td></tr>
+              <tr data-days="0"><th scope="row">Sunday</th><td>12:00 – 21:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="lab__block">
+          <h3 class="lab__label">On tap today</h3>
+          <ul class="taps">
+            <li><span>Christiania Pilsner</span><span>4.6%</span></li>
+            <li><span>Orange Haze</span><span>6.0%</span></li>
+            <li><span>LAB:X #27 Hemp Saison</span><span>5.5%</span></li>
+            <li><span>Bombay</span><span>6.4%</span></li>
+            <li><span>Blueberry Kush</span><span>4.5%</span></li>
+          </ul>
+        </div>
+
+        <div class="lab__ctas">
+          <a class="btn btn--primary" href="https://maps.google.com/?q=M%C3%A6lkevejen+81A,+1440+K%C3%B8benhavn+K" target="_blank" rel="noopener">Get directions</a>
+          <a class="btn btn--ghost btn--on-dark" href="#beers">Full tap list</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCES ============ -->
+  <section class="experiences" id="experiences" aria-labelledby="exp-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal>Experiences &amp; shop</p>
+          <h2 class="h2" id="exp-title" data-reveal>Taste<br>Christiania.</h2>
+        </div>
+        <p class="section-head__text" data-reveal>Walk it, run it, gift it. The best way to get to know the Freetown is with a cold one in your hand and a local by your side.</p>
+      </div>
+
+      <div class="exp-grid">
+        <a class="exp" href="#experiences" data-reveal>
+          <figure class="exp__media">
+            <img src="assets/img/friends-cheers.jpg" alt="A group of friends toasting with beer glasses" width="1400" height="933" loading="lazy">
+            <span class="exp__tag">Most popular</span>
+          </figure>
+          <div class="exp__body">
+            <p class="exp__meta">Guided tour · 2 hours · from 295 kr</p>
+            <h3>Christiania BeerWalk</h3>
+            <p>See and taste Christiania on a guided walk through its streets, history and street art, with four of our beers along the way.</p>
+            <span class="exp__cta">Book a walk <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="exp" href="#experiences" data-reveal>
+          <figure class="exp__media">
+            <img src="assets/img/sunset-bottles.jpg" alt="Two beer bottles raised in a toast against a sunset" width="1400" height="933" loading="lazy">
+            <span class="exp__tag">Next run · May 2027</span>
+          </figure>
+          <div class="exp__body">
+            <p class="exp__meta">Event · 1 mile · 4 beers</p>
+            <h3>Christiania Beer Mile</h3>
+            <p>One mile, four beers, zero dignity required. Our yearly run through the Freetown, with a party waiting at the finish line.</p>
+            <span class="exp__cta">Sign up <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </a>
+        <a class="exp" href="#experiences" data-reveal>
+          <figure class="exp__media">
+            <img src="assets/img/two-glasses.jpg" alt="Two glasses of golden beer on a bar" width="1200" height="1800" loading="lazy">
+            <span class="exp__tag">Delivered by email</span>
+          </figure>
+          <div class="exp__body">
+            <p class="exp__meta">Gavekort · from 100 kr</p>
+            <h3>Gift Cards</h3>
+            <p>Give someone a round at The Lab, a BeerWalk or anything from our shop. Easily the best present on the list.</p>
+            <span class="exp__cta">Buy a gift card <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOLKEAKTIER ============ -->
+  <section class="shares" id="folkeaktier" aria-labelledby="shares-title">
+    <div class="shares__ghost" aria-hidden="true">BrygNitterne</div>
+    <div class="container shares__grid">
+      <div class="shares__content">
+        <p class="eyebrow eyebrow--yellow" data-reveal>Folkeaktier · BrygNitterne</p>
+        <h2 class="h2" id="shares-title" data-reveal>Own a piece<br>of the brewery.</h2>
+        <p class="shares__lead" data-reveal>Buy a Christiania Bryghus Folkeaktie and you're not just a customer, you're a co-owner. Every shareholder joins BrygNitterne, our members' club on Christiania.</p>
+        <ul class="shares__list">
+          <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Membership of the BrygNitterne club</li>
+          <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Members-only tastings, brew days and events</li>
+          <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Reduced prices on beer at The Lab</li>
+          <li data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>A real say at the annual general meeting</li>
+        </ul>
+        <div class="shares__ctas" data-reveal>
+          <a class="btn btn--primary" href="#folkeaktier">Become a shareholder</a>
+          <a class="btn btn--ghost btn--on-dark" href="#folkeaktier">About BrygNitterne</a>
+        </div>
+      </div>
+      <figure class="shares__media" data-reveal>
+        <img src="assets/img/bar-cheers.jpg" alt="Friends raising their beers at a bar counter" width="1000" height="667" loading="lazy">
+        <div class="shares__sticker" aria-hidden="true">
+          <span>Skål,</span><span>co-owner!</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SOCIAL ============ -->
+  <section class="social" aria-labelledby="social-title">
+    <div class="container">
+      <div class="social__head">
+        <div>
+          <p class="eyebrow eyebrow--yellow" data-reveal>Life on Christiania</p>
+          <h2 class="h2" id="social-title" data-reveal>@christianiabryghus</h2>
+        </div>
+        <a class="btn btn--ghost btn--on-dark" href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" data-reveal>
+          <svg class="i-ig" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r=".6" class="fill"/></svg>
+          Follow on Instagram
+        </a>
+      </div>
+      <div class="social__grid">
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item social__item--tall" data-reveal><img src="assets/img/tap-glasses.jpg" alt="Fresh beer being poured from a tap" width="1000" height="1500" loading="lazy"></a>
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item" data-reveal><img src="assets/img/pint-wood.jpg" alt="A pint of amber ale on a wooden bar" width="1000" height="563" loading="lazy"></a>
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item" data-reveal><img src="assets/img/bar-night.jpg" alt="A crowded bar at night" width="1600" height="1067" loading="lazy"></a>
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item social__item--tall" data-reveal><img src="assets/img/pint-bokeh.jpg" alt="A dark beer on a bar with warm lights behind" width="1000" height="1500" loading="lazy"></a>
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item" data-reveal><img src="assets/img/foam-macro.jpg" alt="Close-up of beer foam and condensation" width="1800" height="1200" loading="lazy"></a>
+        <a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener" class="social__item" data-reveal><img src="assets/img/glass-lineup.jpg" alt="A row of different beers on a bar" width="1000" height="1500" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="newsletter" aria-labelledby="news-title">
+    <div class="container newsletter__grid">
+      <div>
+        <h2 class="newsletter__title" id="news-title" data-reveal>Get the<br>first pour.</h2>
+      </div>
+      <div class="newsletter__side" data-reveal>
+        <p>New releases, LAB:X drops and BeerWalk dates, straight to your inbox. No spam, just beer.</p>
+        <form class="newsletter__form" data-newsletter novalidate>
+          <label class="sr-only" for="nl-email">Email address</label>
+          <input id="nl-email" type="email" name="email" placeholder="Your email address" autocomplete="email" required>
+          <button type="submit" class="btn btn--dark">Sign up</button>
+        </form>
+        <p class="newsletter__msg" data-newsletter-msg role="status"></p>
+        <p class="newsletter__fine">By signing up you confirm you're 18+ and accept our privacy policy.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img src="assets/logo.png" alt="Christiania Bryghus" width="132" height="132" loading="lazy">
+        <p>Bryghus på Christiania i København.<br>Proudly brewed with hemp.</p>
+      </div>
+      <div class="footer__cols">
+        <div>
+          <h3>Visit</h3>
+          <address>The Lab<br>Mælkevejen 81A<br>Christiania<br>1440 København K</address>
+          <p class="footer__hours">Mon–Wed &amp; Sun 12–21<br>Thu–Sat 12–22</p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#beers">Our beers</a></li>
+            <li><a href="#the-lab">On tap at The Lab</a></li>
+            <li><a href="#brewing">LAB:X</a></li>
+            <li><a href="#beers">Where to buy</a></li>
+            <li><a href="#main">News</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Join in</h3>
+          <ul>
+            <li><a href="#experiences">Christiania BeerWalk</a></li>
+            <li><a href="#experiences">Christiania Beer Mile</a></li>
+            <li><a href="#experiences">Gift cards</a></li>
+            <li><a href="#folkeaktier">Folkeaktier</a></li>
+            <li><a href="#folkeaktier">BrygNitterne</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Follow</h3>
+          <ul>
+            <li><a href="https://www.instagram.com/christianiabryghus/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.facebook.com/christianiabryghus/" target="_blank" rel="noopener">Facebook</a></li>
+            <li><a href="https://untappd.com/ChristianiaBryghus" target="_blank" rel="noopener">Untappd</a></li>
+            <li><a href="https://www.tripadvisor.dk/Attraction_Review-g189541-d20072624-Reviews-Christiania_Bryghus-Copenhagen_Zealand.html" target="_blank" rel="noopener">Tripadvisor</a></li>
+            <li><a href="https://www.linkedin.com/company/christiania-bryghus/" target="_blank" rel="noopener">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer__wordmark" aria-hidden="true">Christiania Bryghus</p>
+
+    <div class="footer__bottom">
+      <p>© <span data-year>2026</span> Christiania Bryghus. Drink responsibly. You must be 18+ to buy alcohol.</p>
+      <ul>
+        <li><a href="#main">Social code of conduct</a></li>
+        <li><a href="#main">Cookie policy</a></li>
+        <li><a href="#main">Terms of trade</a></li>
+        <li><a href="#main">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
