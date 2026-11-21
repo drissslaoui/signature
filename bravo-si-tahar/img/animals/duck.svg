@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" class="animal-svg" data-animal="duck">
+  <g stroke="#4A3328" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- ripple ring behind the duck -->
+    <ellipse class="water-back" cx="190" cy="342" rx="176" ry="34" fill="#B3E2F6" stroke="none"/>
+
+    <!-- body with the little tail point -->
+    <g class="part body">
+      <path d="M62 212 C 60 202, 68 198, 74 206 C 92 230, 118 238, 156 236 C 216 232, 300 236, 318 296 C 334 348, 274 370, 190 370 C 108 370, 48 346, 48 292 C 48 258, 54 232, 62 212 Z" fill="#FFD84D"/>
+    </g>
+
+    <!-- wing (waves goodbye) -->
+    <g class="part wave tail" style="transform-origin:206px 270px">
+      <path d="M220 270 C 210 238, 150 236, 112 256 C 86 270, 78 292, 92 300 C 104 306, 118 300, 124 298 C 120 312, 134 322, 150 318 C 192 312, 232 304, 220 270 Z" fill="#FDBE35"/>
+    </g>
+
+    <!-- head -->
+    <g class="part head" style="transform-origin:262px 240px">
+     <g transform="translate(0 14)">
+      <path class="part ears" style="transform-origin:262px 86px" d="M246 84 C 232 62, 252 46, 264 64 C 268 46, 296 48, 284 78 Z" fill="#FFD84D"/>
+      <circle cx="262" cy="150" r="78" fill="#FFD84D"/>
+
+      <ellipse class="cheek" cx="204" cy="170" rx="14" ry="9" fill="#FF9E8A" opacity="0.65" stroke="none"/>
+      <ellipse class="cheek" cx="320" cy="170" rx="14" ry="9" fill="#FF9E8A" opacity="0.65" stroke="none"/>
+
+      <g class="part eyes" style="transform-origin:262px 136px">
+        <ellipse cx="233" cy="136" rx="15" ry="19" fill="#3A2820" stroke="none"/>
+        <circle cx="239" cy="129" r="6" fill="#fff" stroke="none"/>
+        <circle cx="228" cy="144" r="2.8" fill="#fff" stroke="none"/>
+        <ellipse cx="291" cy="136" rx="15" ry="19" fill="#3A2820" stroke="none"/>
+        <circle cx="297" cy="129" r="6" fill="#fff" stroke="none"/>
+        <circle cx="286" cy="144" r="2.8" fill="#fff" stroke="none"/>
+      </g>
+      <g class="part eyes-closed" opacity="0" fill="none">
+        <path d="M219 136 Q 233 148 247 136"/>
+        <path d="M277 136 Q 291 148 305 136"/>
+      </g>
+
+      <!-- bill: lower part is the mouth, it opens for a yawn -->
+      <g class="part mouth-open" opacity="0">
+        <ellipse cx="262" cy="200" rx="30" ry="22" fill="#7A3B3B" stroke-width="6"/>
+        <ellipse cx="262" cy="212" rx="16" ry="6" fill="#F48B98" stroke="none"/>
+      </g>
+      <g class="part mouth">
+        <ellipse cx="262" cy="194" rx="30" ry="13" fill="#F07E2C"/>
+      </g>
+      <ellipse cx="262" cy="180" rx="44" ry="19" fill="#FF9B3D"/>
+      <ellipse cx="250" cy="175" rx="4.5" ry="3" fill="#C9631D" stroke="none"/>
+      <ellipse cx="274" cy="175" rx="4.5" ry="3" fill="#C9631D" stroke="none"/>
+     </g>
+    </g>
+
+    <!-- ripple ring in front: hides the bottom of the body -->
+    <g class="water-front">
+      <path d="M14 344 C 40 330, 64 330, 86 342 C 110 354, 134 354, 158 342 C 182 330, 206 330, 230 342 C 254 354, 278 354, 302 342 C 324 330, 348 330, 366 342 C 362 368, 290 390, 190 390 C 90 390, 18 368, 14 344 Z" fill="#84CDEE" stroke="none"/>
+      <path d="M24 342 C 46 332, 66 332, 86 342 C 110 354, 134 354, 158 342 C 182 330, 206 330, 230 342 C 254 354, 278 354, 302 342 C 322 332, 342 332, 356 340" fill="none" stroke="#FFFFFF" stroke-width="7" opacity="0.9"/>
+    </g>
+  </g>
+</svg>
