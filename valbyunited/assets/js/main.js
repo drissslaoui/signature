@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Valby United — site behaviour
+   Valby United — site behaviour (Danish + English)
+   The page language comes from <html lang="da|en">.
    ========================================================================== */
 (function () {
   "use strict";
@@ -9,18 +10,75 @@
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const LANG = (document.documentElement.lang || "da").slice(0, 2) === "en" ? "en" : "da";
 
-  /* ---------- Danish date helpers ---------- */
-  const WEEKDAYS = ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"];
-  const MONTHS = ["januar", "februar", "marts", "april", "maj", "juni", "juli", "august", "september", "oktober", "november", "december"];
-  const MONTHS_SHORT = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  /* ---------- Strings ---------- */
+  const STR = {
+    da: {
+      weekdays: ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"],
+      months: ["januar", "februar", "marts", "april", "maj", "juni", "juli", "august", "september", "oktober", "november", "december"],
+      monthsShort: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
+      home: "Hjemme", away: "Ude", homeShort: "H", awayShort: "U", homeMatch: "Hjemmekamp", awayMatch: "Udekamp",
+      result: { W: "Sejr", D: "Uafgjort", L: "Nederlag" }, formLetter: { W: "V", D: "U", L: "T" },
+      nextMatch: "Næste kamp", freeEntry: "Fri entré", fullTime: "Slutresultat",
+      comp: { league: "Elite 1", cup: "KBU Pokal" }, round: (r) => (r === "QF" ? "Kvartfinale" : `Runde ${r}`),
+      pos: { GK: "Målmand", DF: "Forsvar", MF: "Midtbane", FW: "Angriber" },
+      number: "nummer", captain: "Anfører", photoSoon: "Foto kommer", apps: "Kampe", goals: "Mål", form: "Form",
+      staff: { head: "Cheftræner", assistant: "Assistenttræner", keeper: "Målmandstræner" },
+      icsFile: "valby-united-naeste-kamp.ics",
+      openMenu: "Åbn menu", closeMenu: "Luk menu",
+      nlInvalid: "Indtast en gyldig e-mailadresse.", nlOk: "Tak! Du er nu tilmeldt Valby United-nyhedsbrevet.",
+      err: {
+        name: "Skriv dit fulde navn.", email: "Indtast en gyldig e-mailadresse.",
+        phone: "Indtast et dansk telefonnummer (8 cifre).", age: "Vælg alder.", consent: "Forælder/værge skal give samtykke.",
+      },
+    },
+    en: {
+      weekdays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      home: "Home", away: "Away", homeShort: "H", awayShort: "A", homeMatch: "Home match", awayMatch: "Away match",
+      result: { W: "Win", D: "Draw", L: "Loss" }, formLetter: { W: "W", D: "D", L: "L" },
+      nextMatch: "Next match", freeEntry: "Free entry", fullTime: "Full time",
+      comp: { league: "Elite 1", cup: "KBU Cup" }, round: (r) => (r === "QF" ? "Quarter-final" : `Round ${r}`),
+      pos: { GK: "Goalkeeper", DF: "Defender", MF: "Midfielder", FW: "Forward" },
+      number: "number", captain: "Captain", photoSoon: "Photo coming soon", apps: "Apps", goals: "Goals", form: "Form",
+      staff: { head: "Head coach", assistant: "Assistant coach", keeper: "Goalkeeper coach" },
+      icsFile: "valby-united-next-match.ics",
+      openMenu: "Open menu", closeMenu: "Close menu",
+      nlInvalid: "Please enter a valid email address.", nlOk: "Thanks! You're now subscribed to the Valby United newsletter.",
+      err: {
+        name: "Please enter your full name.", email: "Please enter a valid email address.",
+        phone: "Please enter a Danish phone number (8 digits).", age: "Please choose an age.", consent: "A parent/guardian must give consent.",
+      },
+    },
+  };
+  const T = STR[LANG];
+
+  /* ---------- Date helpers ---------- */
   const pad = (n) => String(n).padStart(2, "0");
   const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-  const fmtTime = (d) => `kl. ${pad(d.getHours())}.${pad(d.getMinutes())}`;
-  const fmtLong = (d) => `${cap(WEEKDAYS[d.getDay()])} ${d.getDate()}. ${MONTHS[d.getMonth()]}`;
-  const fmtShort = (d) => `${WEEKDAYS[d.getDay()].slice(0, 3)} ${d.getDate()}. ${MONTHS_SHORT[d.getMonth()]}`;
-  const fmtNews = (d) => `${d.getDate()}. ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+  const clock = (d) => (LANG === "en" ? `${pad(d.getHours())}:${pad(d.getMinutes())}` : `${pad(d.getHours())}.${pad(d.getMinutes())}`);
+  const fmtTime = (d) => (LANG === "en" ? clock(d) : `kl. ${clock(d)}`);
+  const fmtLong = (d) => LANG === "en"
+    ? `${T.weekdays[d.getDay()]} ${d.getDate()} ${T.months[d.getMonth()]}`
+    : `${cap(T.weekdays[d.getDay()])} ${d.getDate()}. ${T.months[d.getMonth()]}`;
+  const fmtShort = (d) => LANG === "en"
+    ? `${T.weekdays[d.getDay()].slice(0, 3)} ${d.getDate()} ${T.monthsShort[d.getMonth()]}`
+    : `${T.weekdays[d.getDay()].slice(0, 3)} ${d.getDate()}. ${T.monthsShort[d.getMonth()]}`;
+  const fmtNews = (d) => LANG === "en"
+    ? `${d.getDate()} ${T.monthsShort[d.getMonth()]} ${d.getFullYear()}`
+    : `${d.getDate()}. ${T.monthsShort[d.getMonth()]} ${d.getFullYear()}`;
+  const compLabel = (f) => `${T.comp[f.comp]} · ${T.round(f.round)}`;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  /* ---------- Language switch: keep the current section when switching ---------- */
+  $$("[data-lang-switch]").forEach((a) => {
+    a.addEventListener("click", () => {
+      if (location.hash) a.href = a.getAttribute("href").split("#")[0] + location.hash;
+      try { localStorage.setItem("vu-lang", a.getAttribute("hreflang") || ""); } catch (e) { /* storage blocked */ }
+    });
+  });
 
   /* ---------- Header ---------- */
   const header = $(".site-header");
@@ -37,7 +95,7 @@
     const setOpen = (open) => {
       document.documentElement.classList.toggle("menu-open", open);
       burger.setAttribute("aria-expanded", String(open));
-      burger.setAttribute("aria-label", open ? "Luk menu" : "Åbn menu");
+      burger.setAttribute("aria-label", open ? T.closeMenu : T.openMenu);
       menu.setAttribute("aria-hidden", String(!open));
       if (open) menu.querySelector("a")?.focus({ preventScroll: true });
     };
@@ -76,10 +134,10 @@
   const nm = $("[data-next-match]");
   if (nm && next) {
     const home = D.teams[next.home], away = D.teams[next.away];
-    $("[data-nm-comp]", nm).textContent = `${next.comp} · ${next.round}`;
+    $("[data-nm-comp]", nm).textContent = compLabel(next);
     $("[data-nm-home]", nm).innerHTML = `${crest(next.home, 64)}<span>${esc(home.name)}</span>`;
     $("[data-nm-away]", nm).innerHTML = `${crest(next.away, 64)}<span>${esc(away.name)}</span>`;
-    $("[data-nm-time]", nm).innerHTML = `${pad(next.date.getHours())}.${pad(next.date.getMinutes())}<small>${next.home === "VU" ? "Hjemme" : "Ude"}</small>`;
+    $("[data-nm-time]", nm).innerHTML = `${clock(next.date)}<small>${next.home === "VU" ? T.home : T.away}</small>`;
     $("[data-nm-date]", nm).textContent = fmtLong(next.date);
     $("[data-nm-venue]", nm).textContent = next.venue;
     const maps = $("[data-nm-maps]", nm);
@@ -103,7 +161,7 @@
       const toICS = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
       const end = new Date(next.date.getTime() + 2 * 36e5);
       const ics = [
-        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Valby United//Kampprogram//DA", "CALSCALE:GREGORIAN",
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Valby United//Fixtures//" + LANG.toUpperCase(), "CALSCALE:GREGORIAN",
         "BEGIN:VEVENT",
         `UID:${toICS(next.date)}-${next.home}-${next.away}@valbyunited.dk`,
         `DTSTAMP:${toICS(new Date())}`,
@@ -111,11 +169,11 @@
         `DTEND:${toICS(end)}`,
         `SUMMARY:${home.name} – ${away.name}`,
         `LOCATION:${next.venue}`,
-        `DESCRIPTION:${next.comp} · ${next.round}`,
+        `DESCRIPTION:${compLabel(next)}`,
         "END:VEVENT", "END:VCALENDAR",
       ].join("\r\n");
       const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
-      const a = Object.assign(document.createElement("a"), { href: url, download: "valby-united-naeste-kamp.ics" });
+      const a = Object.assign(document.createElement("a"), { href: url, download: T.icsFile });
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     });
@@ -131,19 +189,18 @@
     if (isResult) {
       const [hs, as] = f.score;
       const ours = usHome ? hs : as, theirs = usHome ? as : hs;
-      const r = ours > theirs ? "V" : ours === theirs ? "U" : "T";
-      const label = { V: "Sejr", U: "Uafgjort", T: "Nederlag" }[r];
-      badge = `<span class="result-badge result-badge--${r}" title="${label}">${label}</span>`;
+      const r = ours > theirs ? "W" : ours === theirs ? "D" : "L";
+      badge = `<span class="result-badge result-badge--${r}">${T.result[r]}</span>`;
       if (hs < as) homeCls = " is-loser"; else if (as < hs) awayCls = " is-loser";
     }
     const team = (key, cls, score) => `<div class="fixture__team${cls}">${crest(key, 32)}<span>${esc(D.teams[key].name)}</span>${isResult ? `<b>${score}</b>` : ""}</div>`;
     const foot = isResult
       ? badge
-      : isNext ? `<span class="chip chip--green">Næste kamp</span>` : f.free ? `<span class="chip">Fri entré</span>` : "";
+      : isNext ? `<span class="chip chip--green">${T.nextMatch}</span>` : f.free ? `<span class="chip">${T.freeEntry}</span>` : "";
     return `<article class="fixture${isNext ? " fixture--next" : ""}">
-      <div class="fixture__top"><span>${esc(f.comp)} · ${esc(f.round)}</span><span class="fixture__ha" title="${usHome ? "Hjemmekamp" : "Udekamp"}">${usHome ? "H" : "U"}</span></div>
+      <div class="fixture__top"><span>${esc(compLabel(f))}</span><span class="fixture__ha" title="${usHome ? T.homeMatch : T.awayMatch}">${usHome ? T.homeShort : T.awayShort}</span></div>
       <div class="fixture__body">
-        <div class="fixture__date">${fmtShort(f.date)}<small>${isResult ? "Slutresultat" : fmtTime(f.date)}</small></div>
+        <div class="fixture__date">${fmtShort(f.date)}<small>${isResult ? T.fullTime : fmtTime(f.date)}</small></div>
         <div class="fixture__teams">${team(f.home, homeCls, isResult ? f.score[0] : "")}${team(f.away, awayCls, isResult ? f.score[1] : "")}</div>
       </div>
       <div class="fixture__foot"><span><svg class="i i--sm"><use href="#i-pin"/></svg>${esc(f.venue)}</span>${foot}</div>
@@ -197,6 +254,7 @@
   $("[data-tabs='fixtures']")?.addEventListener("tabchange", (e) => renderFixtures(e.detail));
 
   /* ---------- League table ---------- */
+  const formChips = (form) => form.split("").map((c) => `<i class="${c}" title="${T.result[c]}">${T.formLetter[c]}</i>`).join("");
   const tableBody = $("[data-league]");
   if (tableBody) {
     const last = D.table.length;
@@ -205,14 +263,13 @@
       const pos = i + 1;
       const gd = gf - ga;
       const zone = pos === 1 ? '<i class="zone zone--up" aria-hidden="true"></i>' : pos > last - 2 ? '<i class="zone zone--down" aria-hidden="true"></i>' : "";
-      const formHtml = form.split("").map((c) => `<i class="${c}">${c}</i>`).join("");
       return `<tr class="${key === "VU" ? "is-us" : ""}">
         <td>${zone}${pos}</td>
         <td><span class="team-cell">${crest(key, 24)}${esc(D.teams[key].name)}</span></td>
         <td>${p}</td><td class="hide-sm">${w}</td><td class="hide-sm">${dr}</td><td class="hide-sm">${l}</td>
         <td class="hide-sm">${gf}–${ga}</td><td>${gd > 0 ? "+" + gd : gd}</td>
         <td class="pts">${w * 3 + dr}</td>
-        <td class="hide-sm"><span class="form" aria-label="Form: ${form}">${formHtml}</span></td>
+        <td class="hide-sm"><span class="form" aria-label="${T.form}: ${form.split("").map((c) => T.result[c]).join(", ")}">${formChips(form)}</span></td>
       </tr>`;
     }).join("");
   }
@@ -225,34 +282,33 @@
     $("[data-stat-cs]", statsEl).textContent = s.cleanSheets;
     $("[data-stat-losses]", statsEl).textContent = s.losses;
     const us = D.table.find((r) => r[0] === "VU");
-    $("[data-stat-form]", statsEl).innerHTML = us[7].split("").map((c) => `<i class="${c}" title="${{ V: "Sejr", U: "Uafgjort", T: "Nederlag" }[c]}">${c}</i>`).join("");
+    $("[data-stat-form]", statsEl).innerHTML = formChips(us[7]);
     const top = [...D.squad].sort((a, b) => b.goals - a.goals).slice(0, 4);
     const max = top[0].goals || 1;
     $("[data-scorers]", statsEl).innerHTML = top.map((p) => `
       <div class="scorer">
         <span class="scorer__no">${p.no}</span>
-        <div class="scorer__name">${esc(p.first)} ${esc(p.last)}<small>${posLabel(p.pos)}</small><div class="bar"><i style="width:${(p.goals / max) * 100}%"></i></div></div>
+        <div class="scorer__name">${esc(p.first)} ${esc(p.last)}<small>${T.pos[p.pos]}</small><div class="bar"><i style="width:${(p.goals / max) * 100}%"></i></div></div>
         <span class="scorer__goals">${p.goals}</span>
       </div>`).join("");
   }
 
   /* ---------- Squad ---------- */
-  function posLabel(p) { return { GK: "Målmand", DF: "Forsvar", MF: "Midtbane", FW: "Angriber" }[p]; }
   const squadEl = $("[data-squad]");
   if (squadEl) {
     const order = { GK: 0, DF: 1, MF: 2, FW: 3 };
     const sil = `<svg class="player__sil" viewBox="0 0 200 230" aria-hidden="true"><path fill="currentColor" d="M100 18c22 0 38 18 38 44 0 19-8 35-20 43v13c30 6 62 22 70 52 4 16 6 38 6 60H6c0-22 2-44 6-60 8-30 40-46 70-52v-13c-12-8-20-24-20-43 0-26 16-44 38-44z"/></svg>`;
     squadEl.innerHTML = [...D.squad].sort((a, b) => order[a.pos] - order[b.pos] || a.no - b.no).map((p) => `
-      <article class="player" data-pos="${p.pos}" tabindex="0" aria-label="${esc(p.first)} ${esc(p.last)}, nummer ${p.no}, ${posLabel(p.pos)}">
+      <article class="player" data-pos="${p.pos}" tabindex="0" aria-label="${esc(p.first)} ${esc(p.last)}, ${T.number} ${p.no}, ${T.pos[p.pos]}">
         <span class="player__no" aria-hidden="true">${p.no}</span>
-        ${p.captain ? '<span class="player__cap" title="Anfører">C</span>' : ""}
-        <span class="photo-note">Foto kommer</span>
+        ${p.captain ? `<span class="player__cap" title="${T.captain}">C</span>` : ""}
+        <span class="photo-note">${T.photoSoon}</span>
         ${sil}
         <div class="player__info">
           <div class="player__first">${esc(p.first)}</div>
           <div class="player__last">${esc(p.last)}</div>
-          <div class="player__pos">${posLabel(p.pos)}</div>
-          <div class="player__stats"><div><b>${p.apps}</b><span>Kampe</span></div><div><b>${p.goals}</b><span>Mål</span></div></div>
+          <div class="player__pos">${T.pos[p.pos]}</div>
+          <div class="player__stats"><div><b>${p.apps}</b><span>${T.apps}</span></div><div><b>${p.goals}</b><span>${T.goals}</span></div></div>
         </div>
       </article>`).join("");
     $("[data-tabs='squad']")?.addEventListener("tabchange", (e) => {
@@ -260,7 +316,7 @@
       $$(".player", squadEl).forEach((el) => el.classList.toggle("is-hidden", f !== "all" && el.dataset.pos !== f));
     });
     const staffEl = $("[data-staff]");
-    if (staffEl) staffEl.innerHTML = D.staff.map((s) => `<div class="staff__item"><span>${esc(s.role)}</span><b>${esc(s.name)}</b></div>`).join("");
+    if (staffEl) staffEl.innerHTML = D.staff.map((s) => `<div class="staff__item"><span>${esc(T.staff[s.role] || s.role)}</span><b>${esc(s.name)}</b></div>`).join("");
   }
 
   /* ---------- News dates (relative to latest result, keeps the demo consistent) ---------- */
@@ -297,12 +353,12 @@
         e.preventDefault();
         const input = $("input[type=email]", form);
         if (!emailOk(input.value)) {
-          msg.textContent = "Indtast en gyldig e-mailadresse.";
+          msg.textContent = T.nlInvalid;
           msg.className = "form-msg is-err";
           input.focus();
           return;
         }
-        msg.textContent = "Tak! Du er nu tilmeldt Valby United-nyhedsbrevet.";
+        msg.textContent = T.nlOk;
         msg.className = "form-msg is-ok";
         form.reset();
       });
@@ -312,11 +368,11 @@
     if (wl) {
       const card = wl.closest(".form-card");
       const rules = {
-        name: (v) => v.trim().length >= 2 || "Skriv dit fulde navn.",
-        email: (v) => emailOk(v) || "Indtast en gyldig e-mailadresse.",
-        phone: (v) => /^(\+?45)?\s?(\d\s?){8}$/.test(v.trim()) || "Indtast et dansk telefonnummer (8 cifre).",
-        age: (v) => v !== "" || "Vælg alder.",
-        consent: (_, el) => el.checked || "Forælder/værge skal give samtykke.",
+        name: (v) => v.trim().length >= 2 || T.err.name,
+        email: (v) => emailOk(v) || T.err.email,
+        phone: (v) => /^(\+?45)?\s?(\d\s?){8}$/.test(v.trim()) || T.err.phone,
+        age: (v) => v !== "" || T.err.age,
+        consent: (_, el) => el.checked || T.err.consent,
       };
       const check = (el) => {
         const rule = rules[el.name];

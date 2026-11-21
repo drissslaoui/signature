@@ -12,7 +12,9 @@
 (function () {
   "use strict";
 
-  const CREST = "assets/img/brand/crest-128.png";
+  // resolve the crest relative to this script, so pages in sub-folders (e.g. /en/) work too
+  const SCRIPT = document.currentScript && document.currentScript.src;
+  const CREST = SCRIPT ? new URL("../img/brand/crest-128.png", SCRIPT).href : "assets/img/brand/crest-128.png";
 
   const teams = {
     VU:  { name: "Valby United",      short: "VU",  crest: CREST },
@@ -44,38 +46,38 @@
   const HOME = "Valby Idrætspark";
 
   const upcoming = [
-    { date: day(0, 13),      comp: "Elite 1", round: "Runde 14", home: "VU",  away: "VFC", venue: HOME, free: true },
-    { date: day(6, 14),      comp: "Elite 1", round: "Runde 15", home: "CBI", away: "VU",  venue: "Carlsberg Byen Kunstgræs" },
-    { date: day(11, 19, 30), comp: "KBU Pokal", round: "Kvartfinale", home: "VU", away: "HN", venue: HOME, free: true },
-    { date: day(14, 12),     comp: "Elite 1", round: "Runde 16", home: "GU",  away: "VU",  venue: "Grøndal Idrætsanlæg" },
-    { date: day(21, 13),     comp: "Elite 1", round: "Runde 17", home: "VU",  away: "AFC", venue: HOME, free: true },
+    { date: day(0, 13),      comp: "league", round: 14, home: "VU",  away: "VFC", venue: HOME, free: true },
+    { date: day(6, 14),      comp: "league", round: 15, home: "CBI", away: "VU",  venue: "Carlsberg Byen Kunstgræs" },
+    { date: day(11, 19, 30), comp: "cup", round: "QF", home: "VU", away: "HN", venue: HOME, free: true },
+    { date: day(14, 12),     comp: "league", round: 16, home: "GU",  away: "VU",  venue: "Grøndal Idrætsanlæg" },
+    { date: day(21, 13),     comp: "league", round: 17, home: "VU",  away: "AFC", venue: HOME, free: true },
   ];
 
   const results = [
-    { date: day(-7, 13),  comp: "Elite 1", round: "Runde 13", home: "VU",  away: "SBK", score: [2, 1], venue: HOME },
-    { date: day(-14, 15), comp: "Elite 1", round: "Runde 12", home: "DBK", away: "VU",  score: [1, 1], venue: "Damhus Boldbaner" },
-    { date: day(-21, 13), comp: "Elite 1", round: "Runde 11", home: "VU",  away: "TBK", score: [3, 0], venue: HOME },
-    { date: day(-28, 14), comp: "Elite 1", round: "Runde 10", home: "LIF", away: "VU",  score: [0, 2], venue: "Langgade Stadion" },
-    { date: day(-35, 13), comp: "Elite 1", round: "Runde 9",  home: "VU",  away: "KEI", score: [1, 2], venue: HOME },
+    { date: day(-7, 13),  comp: "league", round: 13, home: "VU",  away: "SBK", score: [2, 1], venue: HOME },
+    { date: day(-14, 15), comp: "league", round: 12, home: "DBK", away: "VU",  score: [1, 1], venue: "Damhus Boldbaner" },
+    { date: day(-21, 13), comp: "league", round: 11, home: "VU",  away: "TBK", score: [3, 0], venue: HOME },
+    { date: day(-28, 14), comp: "league", round: 10, home: "LIF", away: "VU",  score: [0, 2], venue: "Langgade Stadion" },
+    { date: day(-35, 13), comp: "league", round: 9,  home: "VU",  away: "KEI", score: [1, 2], venue: HOME },
   ];
 
-  // [team, played, won, drawn, lost, goalsFor, goalsAgainst, form (newest first)]
+  // [team, played, won, drawn, lost, goalsFor, goalsAgainst, form (newest first: W/D/L)]
   const table = [
-    ["KEI", 13, 10, 2, 1, 31, 11, "VVUVV"],
-    ["VU",  13,  9, 3, 1, 29, 12, "VUVVT"],
-    ["VFC", 13,  8, 2, 3, 25, 15, "VVTVU"],
-    ["SBK", 13,  7, 3, 3, 22, 16, "TVVUV"],
-    ["DBK", 13,  6, 4, 3, 20, 17, "UUVTV"],
-    ["CBI", 13,  5, 2, 6, 21, 19, "VTTVU"],
-    ["GU",  13,  4, 3, 6, 18, 20, "TUVTT"],
-    ["TBK", 13,  3, 4, 6, 15, 21, "TTUUV"],
-    ["AFC", 13,  3, 3, 7, 14, 22, "UTVTT"],
-    ["LIF", 13,  3, 2, 8, 15, 24, "TTVTU"],
-    ["HN",  13,  2, 3, 8, 12, 25, "UTTTV"],
-    ["BFC", 13,  1, 3, 9, 10, 30, "TTUTT"],
+    ["KEI", 13, 10, 2, 1, 31, 11, "WWDWW"],
+    ["VU",  13,  9, 3, 1, 29, 12, "WDWWL"],
+    ["VFC", 13,  8, 2, 3, 25, 15, "WWLWD"],
+    ["SBK", 13,  7, 3, 3, 22, 16, "LWWDW"],
+    ["DBK", 13,  6, 4, 3, 20, 17, "DDWLW"],
+    ["CBI", 13,  5, 2, 6, 21, 19, "WLLWD"],
+    ["GU",  13,  4, 3, 6, 18, 20, "LDWLL"],
+    ["TBK", 13,  3, 4, 6, 15, 21, "LLDDW"],
+    ["AFC", 13,  3, 3, 7, 14, 22, "DLWLL"],
+    ["LIF", 13,  3, 2, 8, 15, 24, "LLWLD"],
+    ["HN",  13,  2, 3, 8, 12, 25, "DLLLW"],
+    ["BFC", 13,  1, 3, 9, 10, 30, "LLDLL"],
   ];
 
-  // pos: GK | DF | MF | FW
+  // pos: GK | DF | MF | FW   (labels are translated in main.js)
   const squad = [
     { no: 1,  first: "Mikkel",  last: "Sørensen",  pos: "GK", apps: 13, goals: 0 },
     { no: 16, first: "Ali",     last: "Rahimi",    pos: "GK", apps: 2,  goals: 0 },
@@ -96,9 +98,9 @@
   ];
 
   const staff = [
-    { role: "Cheftræner",      name: "Rasmus Dahl" },
-    { role: "Assistenttræner", name: "Hassan Jaber" },
-    { role: "Målmandstræner",  name: "Peter Vinther" },
+    { role: "head",      name: "Rasmus Dahl" },
+    { role: "assistant", name: "Hassan Jaber" },
+    { role: "keeper",    name: "Peter Vinther" },
   ];
 
   const seasonStats = { goals: 29, cleanSheets: 6, losses: 1 };
