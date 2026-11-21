@@ -10,11 +10,21 @@
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const LANG = (document.documentElement.lang || "da").slice(0, 2) === "en" ? "en" : "da";
+  // One-page build: both languages live in the same file and switch in place.
+  const ONE_PAGE = !!document.querySelector("[data-lang-toggle], [data-set-lang]");
+  let LANG = (document.documentElement.lang || "da").slice(0, 2) === "en" ? "en" : "da";
+  if (ONE_PAGE) {
+    let wanted = null;
+    try { wanted = new URLSearchParams(location.search).get("lang") || localStorage.getItem("vu-lang"); } catch (e) { /* storage blocked */ }
+    if (wanted === "en" || wanted === "da") LANG = wanted;
+  }
 
   /* ---------- Strings ---------- */
   const STR = {
     da: {
+      title: "Valby United — Én klub. Hele Valby.",
+      description: "Valby United er fodboldklubben for hele Valby. Kampprogram, nyheder, truppen, akademi, e-sport og medlemskab.",
+      switchTo: "EN", switchLabel: "Switch to English",
       weekdays: ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"],
       months: ["januar", "februar", "marts", "april", "maj", "juni", "juli", "august", "september", "oktober", "november", "december"],
       monthsShort: ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"],
@@ -34,6 +44,9 @@
       },
     },
     en: {
+      title: "Valby United — One club. All of Valby.",
+      description: "Valby United is the football club for all of Valby. Fixtures, news, the squad, academy, e-sport and membership.",
+      switchTo: "DA", switchLabel: "Skift til dansk",
       weekdays: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -53,7 +66,7 @@
       },
     },
   };
-  const T = STR[LANG];
+  let T = STR[LANG];
 
   /* ---------- Date helpers ---------- */
   const pad = (n) => String(n).padStart(2, "0");
@@ -132,7 +145,8 @@
   /* ---------- Next match (hero) ---------- */
   const next = D.upcoming[0];
   const nm = $("[data-next-match]");
-  if (nm && next) {
+  function renderNextMatch() {
+    if (!nm || !next) return;
     const home = D.teams[next.home], away = D.teams[next.away];
     $("[data-nm-comp]", nm).textContent = compLabel(next);
     $("[data-nm-home]", nm).innerHTML = `${crest(next.home, 64)}<span>${esc(home.name)}</span>`;
@@ -142,7 +156,8 @@
     $("[data-nm-venue]", nm).textContent = next.venue;
     const maps = $("[data-nm-maps]", nm);
     if (maps) maps.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(next.venue + ", København")}`;
-
+  }
+  if (nm && next) {
     // countdown
     const cd = { d: $("[data-cd-d]", nm), h: $("[data-cd-h]", nm), m: $("[data-cd-m]", nm), s: $("[data-cd-s]", nm) };
     const tick = () => {
@@ -156,8 +171,10 @@
     tick();
     setInterval(tick, 1000);
 
-    // add to calendar (.ics)
-    $("[data-nm-ics]", nm)?.addEventListener("click", () => {
+    // add to calendar (.ics) — delegated so it survives language switches
+    nm.addEventListener("click", (e) => {
+      if (!e.target.closest("[data-nm-ics]")) return;
+      const home = D.teams[next.home], away = D.teams[next.away];
       const toICS = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
       const end = new Date(next.date.getTime() + 2 * 36e5);
       const ics = [
@@ -181,6 +198,7 @@
 
   /* ---------- Fixtures ---------- */
   const fixturesEl = $("[data-fixtures]");
+  let fixturesKind = "upcoming";
   function fixtureCard(f, isNext) {
     const isResult = Array.isArray(f.score);
     const usHome = f.home === "VU";
@@ -206,11 +224,13 @@
       <div class="fixture__foot"><span><svg class="i i--sm"><use href="#i-pin"/></svg>${esc(f.venue)}</span>${foot}</div>
     </article>`;
   }
-  function renderFixtures(kind) {
+  function renderFixtures(kind, keepScroll) {
     if (!fixturesEl) return;
+    fixturesKind = kind;
+    const left = fixturesEl.scrollLeft;
     const list = kind === "results" ? D.results : D.upcoming;
     fixturesEl.innerHTML = list.map((f, i) => fixtureCard(f, kind !== "results" && i === 0)).join("");
-    fixturesEl.scrollLeft = 0;
+    fixturesEl.scrollLeft = keepScroll ? left : 0;
     updateFixtureButtons();
   }
   const prevBtn = $("[data-fx-prev]"), nextBtn = $("[data-fx-next]");
@@ -221,7 +241,6 @@
     nextBtn.disabled = fixturesEl.scrollLeft >= max;
   }
   if (fixturesEl) {
-    renderFixtures("upcoming");
     fixturesEl.addEventListener("scroll", updateFixtureButtons, { passive: true });
     window.addEventListener("resize", updateFixtureButtons);
     const step = (dir) => {
@@ -256,7 +275,8 @@
   /* ---------- League table ---------- */
   const formChips = (form) => form.split("").map((c) => `<i class="${c}" title="${T.result[c]}">${T.formLetter[c]}</i>`).join("");
   const tableBody = $("[data-league]");
-  if (tableBody) {
+  function renderTable() {
+    if (!tableBody) return;
     const last = D.table.length;
     tableBody.innerHTML = D.table.map((r, i) => {
       const [key, p, w, dr, l, gf, ga, form] = r;
@@ -276,7 +296,8 @@
 
   /* ---------- Season stats ---------- */
   const statsEl = $("[data-stats]");
-  if (statsEl) {
+  function renderStats() {
+    if (!statsEl) return;
     const s = D.seasonStats;
     $("[data-stat-goals]", statsEl).textContent = s.goals;
     $("[data-stat-cs]", statsEl).textContent = s.cleanSheets;
@@ -295,7 +316,12 @@
 
   /* ---------- Squad ---------- */
   const squadEl = $("[data-squad]");
-  if (squadEl) {
+  let squadFilter = "all";
+  function applySquadFilter() {
+    $$(".player", squadEl).forEach((el) => el.classList.toggle("is-hidden", squadFilter !== "all" && el.dataset.pos !== squadFilter));
+  }
+  function renderSquad() {
+    if (!squadEl) return;
     const order = { GK: 0, DF: 1, MF: 2, FW: 3 };
     const sil = `<svg class="player__sil" viewBox="0 0 200 230" aria-hidden="true"><path fill="currentColor" d="M100 18c22 0 38 18 38 44 0 19-8 35-20 43v13c30 6 62 22 70 52 4 16 6 38 6 60H6c0-22 2-44 6-60 8-30 40-46 70-52v-13c-12-8-20-24-20-43 0-26 16-44 38-44z"/></svg>`;
     squadEl.innerHTML = [...D.squad].sort((a, b) => order[a.pos] - order[b.pos] || a.no - b.no).map((p) => `
@@ -311,17 +337,16 @@
           <div class="player__stats"><div><b>${p.apps}</b><span>${T.apps}</span></div><div><b>${p.goals}</b><span>${T.goals}</span></div></div>
         </div>
       </article>`).join("");
-    $("[data-tabs='squad']")?.addEventListener("tabchange", (e) => {
-      const f = e.detail;
-      $$(".player", squadEl).forEach((el) => el.classList.toggle("is-hidden", f !== "all" && el.dataset.pos !== f));
-    });
+    applySquadFilter();
     const staffEl = $("[data-staff]");
     if (staffEl) staffEl.innerHTML = D.staff.map((s) => `<div class="staff__item"><span>${esc(T.staff[s.role] || s.role)}</span><b>${esc(s.name)}</b></div>`).join("");
   }
+  $("[data-tabs='squad']")?.addEventListener("tabchange", (e) => { squadFilter = e.detail; applySquadFilter(); });
 
   /* ---------- News dates (relative to latest result, keeps the demo consistent) ---------- */
-  const base = D.results[0]?.date;
-  if (base) {
+  function renderNewsDates() {
+    const base = D.results[0]?.date;
+    if (!base) return;
     $$("[data-news-offset]").forEach((el) => {
       const d = new Date(base);
       d.setDate(d.getDate() - Number(el.dataset.newsOffset));
@@ -329,6 +354,63 @@
       el.setAttribute("datetime", d.toISOString().slice(0, 10));
     });
   }
+
+  function renderAll(keepScroll) {
+    renderNextMatch();
+    renderFixtures(fixturesKind, keepScroll);
+    renderTable();
+    renderStats();
+    renderSquad();
+    renderNewsDates();
+  }
+
+  /* ---------- In-place language switch (one-page build) ---------- */
+  function applyLang(lang, persist) {
+    LANG = lang;
+    T = STR[lang];
+    document.documentElement.lang = lang;
+    document.title = T.title;
+    $('meta[name="description"]')?.setAttribute("content", T.description);
+    $$("[data-en]").forEach((el) => {
+      if (el.__da === undefined) el.__da = el.innerHTML;
+      el.innerHTML = lang === "en" ? el.getAttribute("data-en") : el.__da;
+      $$("[data-reveal]", el).forEach((r) => r.classList.add("is-in"));
+    });
+    $$("[data-success-name]").forEach((n) => (n.textContent = n.closest(".form-card")?.dataset.name || ""));
+    $$("[data-en-attrs]").forEach((el) => {
+      el.getAttribute("data-en-attrs").split(",").forEach((attr) => {
+        const key = "__da_" + attr;
+        if (el[key] === undefined) el[key] = el.getAttribute(attr);
+        const v = lang === "en" ? el.getAttribute("data-en-" + attr) : el[key];
+        if (v === null) el.removeAttribute(attr); else el.setAttribute(attr, v);
+      });
+    });
+    $$("[data-lang-toggle]").forEach((b) => {
+      const label = $("[data-lang-label]", b);
+      if (label) label.textContent = T.switchTo;
+      b.setAttribute("aria-label", T.switchLabel);
+      b.setAttribute("title", T.switchLabel);
+    });
+    $$("[data-set-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.setLang === lang)));
+    if (burger) burger.setAttribute("aria-label", burger.getAttribute("aria-expanded") === "true" ? T.closeMenu : T.openMenu);
+    $$(".form-msg").forEach((m) => { m.textContent = ""; m.className = "form-msg"; });
+    $$(".field__err").forEach((m) => (m.textContent = ""));
+    $$(".is-invalid").forEach((f) => f.classList.remove("is-invalid"));
+    if (persist) { try { localStorage.setItem("vu-lang", lang); } catch (e) { /* storage blocked */ } }
+    renderAll(true);
+  }
+  if (ONE_PAGE) {
+    document.addEventListener("click", (e) => {
+      const toggle = e.target.closest("[data-lang-toggle]");
+      const set = e.target.closest("[data-set-lang]");
+      if (toggle) applyLang(LANG === "da" ? "en" : "da", true);
+      else if (set && set.dataset.setLang !== LANG) applyLang(set.dataset.setLang, true);
+    });
+  }
+
+  if (ONE_PAGE && LANG !== "da") applyLang(LANG, false);
+  else renderAll(false);
+  document.documentElement.classList.remove("lang-pending");
 
   initReveal();
   initForms();
@@ -394,6 +476,7 @@
         if (bad.length) { bad[0].focus(); return; }
         const first = $("[name=name]", wl).value.trim().split(" ")[0];
         const nameSlot = $("[data-success-name]", card);
+        card.dataset.name = first;
         if (nameSlot) nameSlot.textContent = first;
         card.classList.add("is-done");
         $(".form-success h3", card)?.focus();

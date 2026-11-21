@@ -3,6 +3,16 @@
    Brand: black / white (split crest) + Valby green #08BB61
    ========================================================================== */
 
+/* Archivo (variable width + weight), latin subset — self-hosted, SIL Open Font License */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("../fonts/archivo-latin.woff2") format("woff2");
+}
+
 :root {
   --ink: #0b0c0b;
   --ink-2: #141614;
@@ -232,8 +242,8 @@ table { border-collapse: collapse; width: 100%; }
 }
 .mobile-menu__list a .i { color: var(--green); width: 28px; height: 28px; }
 .mobile-menu__lang { display: flex; gap: 8px; }
-.mobile-menu__lang a, .mobile-menu__lang span { flex: 1; display: grid; place-items: center; height: 48px; border: 1.5px solid var(--line-dark-strong); font-weight: 700; letter-spacing: 0.08em; font-size: 14px; }
-.mobile-menu__lang span[aria-current] { background: #fff; color: var(--ink); border-color: #fff; }
+.mobile-menu__lang a, .mobile-menu__lang span, .mobile-menu__lang button { flex: 1; display: grid; place-items: center; height: 48px; border: 1.5px solid var(--line-dark-strong); font-weight: 700; letter-spacing: 0.08em; font-size: 14px; }
+.mobile-menu__lang span[aria-current], .mobile-menu__lang button[aria-pressed="true"] { background: #fff; color: var(--ink); border-color: #fff; }
 .mobile-menu__foot { margin-top: auto; display: grid; gap: 16px; color: var(--text-inv-2); font-size: 14px; }
 .menu-open { overflow: hidden; }
 
@@ -628,7 +638,7 @@ table { border-collapse: collapse; width: 100%; }
 .kits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
 .kit { position: relative; display: grid; gap: 18px; }
 .kit__stage { position: relative; aspect-ratio: 1 / 1.05; background: var(--paper-2); display: grid; place-items: center; overflow: hidden; container-type: inline-size; }
-.kit__stage::before { content: attr(data-label); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 24cqw; font-stretch: 62%; font-weight: 800; text-transform: uppercase; color: rgba(11, 12, 11, 0.05); top: auto; bottom: 4%; transform: translateX(-50%); white-space: nowrap; line-height: 1; }
+.kit__stage::before { content: attr(data-label); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 19cqw; font-stretch: 62%; font-weight: 800; text-transform: uppercase; color: rgba(11, 12, 11, 0.05); top: auto; bottom: 4%; transform: translateX(-50%); white-space: nowrap; line-height: 1; }
 .kit__stage svg { width: 72%; position: relative; filter: drop-shadow(0 30px 30px rgba(11, 12, 11, 0.22)); transition: transform 0.6s var(--ease); }
 .kit:hover .kit__stage svg { transform: translateY(-8px) rotate(-2deg) scale(1.02); }
 .kit__badge { position: absolute; top: 16px; left: 16px; background: var(--ink); color: #fff; padding: 6px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -835,3 +845,10 @@ table { border-collapse: collapse; width: 100%; }
 .js [data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); transition-delay: var(--d, 0s); }
 .js [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; } }
+
+/* one-page build: e-sport details merged into the homepage */
+.esport-session { margin-top: clamp(64px, 8vw, 112px); padding-top: clamp(48px, 6vw, 80px); background: linear-gradient(var(--line-dark), var(--line-dark)) top center / calc(100% - 2 * var(--gutter)) 1px no-repeat; }
+.faq-block { margin-top: clamp(72px, 9vw, 128px); }
+
+/* one-page build: hide content until the saved language has been applied */
+.lang-pending body { visibility: hidden; }

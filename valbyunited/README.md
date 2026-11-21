@@ -11,6 +11,23 @@ The crest is used exactly as it is. It has only been resized for web use, and th
 | `index.html` | Hero with live countdown to the next match, a values ticker, news, match centre (fixtures/results, league table, season stats, top scorers), squad with position filter, coaching staff, about the club, academy/teams with training times, e-sport teaser, kits/fan shop, membership, partners, newsletter and footer |
 | `esport.html` | The e-sport department: concept, a typical session, games, waiting-list form with validation, and FAQ |
 | `en/index.html`, `en/esport.html` | The same two pages in English |
+| `valby-united-onepage.html` | **Everything in one self-contained file** (see below) |
+
+## Single-file version
+
+`valby-united-onepage.html` is the whole site in one HTML file, about 2 MB:
+
+- **One page.** The e-sport content (training session, waiting list, FAQ) is merged into the homepage, and every link is an in-page anchor.
+- **Both languages.** The header button (and Dansk / English in the mobile menu) switches language instantly, without a reload. The choice is remembered, and `?lang=en` opens the page in English.
+- **Works offline.** Images (WebP; the crest and partner logos are lossless, so the crest is pixel-identical), the font, CSS and JavaScript are all embedded. The file makes no network requests, so you can double-click it, e-mail it or upload it anywhere.
+
+It is generated from the regular pages. After editing them, rebuild it with:
+
+```bash
+python3 tools/build_onepage.py   # needs beautifulsoup4 and Pillow
+```
+
+The build pairs every Danish page with its English counterpart, so the two must keep the same structure: change text, not layout, on only one side.
 
 ## Languages
 
@@ -69,7 +86,7 @@ valbyunited/
 
 ## Design
 
-- **Typeface:** Archivo (Google Fonts, variable width). Condensed 800 uppercase for headings, normal width for body text.
+- **Typeface:** Archivo (variable width, SIL Open Font License), self-hosted in `assets/fonts/`, so no requests go to Google. Condensed 800 uppercase for headings, normal width for body text.
 - **Colours:** black `#0B0C0B`, white, light grey `#F2F3F1`, and green `#08BB61` for CTAs, active states and highlights. Green text on white uses `#067A40` for contrast.
 - **Signature details:** the small split square next to every label echoes the split crest; the home kit is drawn from the crest; the player cards carry a tiger-stripe texture.
 - Responsive from 360 px to large screens, with keyboard navigation (skip link, tabs with arrow keys, Esc closes the menu), `prefers-reduced-motion` support and alt text.

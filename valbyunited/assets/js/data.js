@@ -14,7 +14,7 @@
 
   // resolve the crest relative to this script, so pages in sub-folders (e.g. /en/) work too
   const SCRIPT = document.currentScript && document.currentScript.src;
-  const CREST = SCRIPT ? new URL("../img/brand/crest-128.png", SCRIPT).href : "assets/img/brand/crest-128.png";
+  const CREST = window.VU_CREST || (SCRIPT ? new URL("../img/brand/crest-128.png", SCRIPT).href : "assets/img/brand/crest-128.png");
 
   const teams = {
     VU:  { name: "Valby United",      short: "VU",  crest: CREST },
